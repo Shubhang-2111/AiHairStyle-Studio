@@ -1,10 +1,10 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi.responses import JSONResponse, FileResponse,HTMLResponse
 import stripe
 import shutil
 import os
 from gradio_client import Client, file
 import logging
+from mangum import Mangum  # Mangum is used to wrap FastAPI for serverless functions (e.g., Vercel)
 
 # Stripe API Keys (replace with your test secret key)
 stripe.api_key = "sk_test_51QdPo2R33uCDdxxk2RBi1HhBGbhWcC1w7B7dW0RqM1GVHnq7TfYDqvdmtcBqgXriuGoddpsPGCJqmXeHf9K5rJZ700uAXy1but"
@@ -106,7 +106,6 @@ def resize_image(file_path, api_name):
 
 
 # Stripe Payment Route
-# Stripe Payment Route
 @app.post("/create_payment_session")
 def create_payment_session(image_path: str):
     try:
@@ -139,8 +138,9 @@ def create_payment_session(image_path: str):
         logging.error("Error creating payment session: %s", str(e))
         raise HTTPException(status_code=500, detail=str(e))
 
+
 # Dictionary to store the image paths against session IDs (use your actual implementation)
-@app.get("/success", response_class=HTMLResponse)
+@app.get("/success")
 def success(session_id: str):
     image_path = generated_images.get(session_id)
     
@@ -240,6 +240,7 @@ def success(session_id: str):
         logging.error("Image not found for session_id %s", session_id)
         raise HTTPException(status_code=404, detail="Image not found or payment not completed.")
 
+
 # Route to serve the image for viewing
 @app.get("/view-image")
 def view_image(session_id: str):
@@ -250,6 +251,7 @@ def view_image(session_id: str):
     else:
         logging.error("Image not found for session_id %s", session_id)
         raise HTTPException(status_code=404, detail="Image not found.")
+
 
 # Route to handle image download
 @app.get("/download-image")
@@ -262,3 +264,6 @@ def download_image(session_id: str):
         logging.error("Image not found for session_id %s", session_id)
         raise HTTPException(status_code=404, detail="Image not found.")
 
+
+# Wrap the FastAPI app for serverless use with Mangum
+handler = Mangum(app)
