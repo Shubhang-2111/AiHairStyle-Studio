@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.responses import FileResponse
 import stripe
 import shutil
 import os
@@ -123,8 +124,8 @@ def create_payment_session(image_path: str):
                 'quantity': 1,
             }],
             mode='payment',
-            success_url="http://ai-hair-style-studio-7i3g.vercel.app/success?session_id={CHECKOUT_SESSION_ID}",
-            cancel_url="http://ai-hair-style-studio-7i3g.vercel.app/cancel",
+            success_url="https://ai-hair-style-studio-6sqw.vercel.app/api/success?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url="https://ai-hair-style-studio-6sqw.vercel.app/api/cancel",
         )
 
         # Store the generated image path to be accessed later

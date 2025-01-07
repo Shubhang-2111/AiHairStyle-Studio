@@ -14,8 +14,8 @@ def swap_hair(source, style, color=None):
         files["color"] = open(color, "rb")
 
     try:
-        response = requests.post("http://127.0.0.1:8000/process_hair_style", files=files)
-        
+        response = requests.post("https://ai-hair-style-studio-6sqw.vercel.app/api/process_hair_style", files=files)
+
         if response.status_code == 200:
             result = response.json()
             print(f"Response JSON: {result}")
