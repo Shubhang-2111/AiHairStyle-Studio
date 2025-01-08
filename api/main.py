@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import FileResponse
+from io import BytesIO
 import stripe
-import shutil
 import os
 from gradio_client import Client, file
 import logging
@@ -25,12 +25,12 @@ generated_images = {}
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
 
-def save_upload_file(uploaded_file: UploadFile, save_dir: str):
-    save_path = os.path.join(save_dir, uploaded_file.filename)
-    with open(save_path, "wb") as buffer:
-        shutil.copyfileobj(uploaded_file.file, buffer)
-    return save_path
-
+def save_upload_file(uploaded_file: UploadFile):
+    try:
+        return BytesIO(uploaded_file.file.read())
+    except Exception as e:
+        logging.error(f"Error saving uploaded file: {str(e)}")
+        raise HTTPException(status_code=500, detail="File saving failed.")
 
 # API Endpoint for processing hair style transfer
 @app.post("/process_hair_style")
