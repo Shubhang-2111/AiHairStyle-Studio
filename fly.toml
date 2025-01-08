@@ -1,0 +1,20 @@
+app = "aihairstylestudio"
+
+[build]
+  image = "Dockerfile"
+
+[env]
+  STRIPE_API_KEY = "sk_test_51QdPo2R33uCDdxxk2RBi1HhBGbhWcC1w7B7dW0RqM1GVHnq7TfYDqvdmtcBqgXriuGoddpsPGCJqmXeHf9K5rJZ700uAXy1but"
+
+[[services]]
+  internal_port = 8000
+  protocol = "tcp"
+
+  [services.concurrency]
+    type = "requests"
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80

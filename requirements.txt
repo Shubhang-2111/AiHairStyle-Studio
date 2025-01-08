@@ -1,7 +1,4 @@
 fastapi
-mangum
-stripe
-python-multipart
-gradio_client
 uvicorn
-pillow
+stripe
+gradio-client

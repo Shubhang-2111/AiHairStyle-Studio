@@ -1,7 +1,0 @@
-fastapi
-mangum
-stripe
-python-multipart
-gradio_client
-uvicorn
-pillow
