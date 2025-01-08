@@ -11,7 +11,7 @@ from mangum import Mangum  # Mangum is used to wrap FastAPI for serverless funct
 stripe.api_key = "sk_test_51QdPo2R33uCDdxxk2RBi1HhBGbhWcC1w7B7dW0RqM1GVHnq7TfYDqvdmtcBqgXriuGoddpsPGCJqmXeHf9K5rJZ700uAXy1but"
 
 # Initialize FastAPI
-app = FastAPI()
+app = FastAPI(root_path="/api")
 
 # Initialize Gradio Client
 client = Client("AIRI-Institute/HairFastGAN")
