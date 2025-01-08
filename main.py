@@ -124,8 +124,8 @@ def create_payment_session(image_path: str):
                 'quantity': 1,
             }],
             mode='payment',
-            success_url="http://127.0.0.1:8000/success?session_id={CHECKOUT_SESSION_ID}",
-            cancel_url="http://127.0.0.1:8000/cancel",
+            success_url="https://aihairstyle-studio.onrender.com/success?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url="https://aihairstyle-studio.onrender.com/cancel",
         )
 
         # Store the generated image path to be accessed later
